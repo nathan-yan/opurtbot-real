@@ -1,0 +1,6 @@
+botocore==1.14.14
+requests==2.22.0
+discord.py==1.5.1
+boto3==1.16.45
+discord==1.0.1
+gevent_socketio==0.3.6
