@@ -5,6 +5,7 @@ import asyncio
 import socketio
 
 import re
+import sys
 
 chat_reg = re.compile("<[^ ]+>")
 
@@ -87,7 +88,7 @@ async def run_server(runner):
 
 async def main():
     
-    p = await asyncio.create_subprocess_shell(' '.join(["java", "-jar", "-Xmx12G", "-Xms12G", "forge-1.16.1-32.0.107.jar", "nogui"]), 
+    p = await asyncio.create_subprocess_shell(sys.argv[1], 
                                               stdout = asyncio.subprocess.PIPE,
                                               stdin  = asyncio.subprocess.PIPE,
                                               stderr = asyncio.subprocess.STDOUT)
