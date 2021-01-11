@@ -83,7 +83,7 @@ async def minecraft_handler(process, sock):
 async def run_server(runner):
     print("running server")
     await runner.setup()
-    site = web.TCPSite(runner, os.environ['PRIVATE_IP'], 5000)
+    site = web.TCPSite(runner, "0.0.0.0", 5000)
     print("run")
     await site.start()
     print("ran")
