@@ -115,7 +115,7 @@ class Spinup(discord.Client):
                 self.vc = await message.author.voice.channel.connect()
 
                 self.vc.play(
-                    discord.FFmpegPCMAudio(executable = "C:/ffmpeg/bin/ffmpeg.exe", source = "./audio/wardell_clipthat.mp3")
+                    discord.FFmpegPCMAudio("./audio/wardell_clipthat.mp3")
                 )
 
                 while self.vc.is_playing():
@@ -133,7 +133,7 @@ class Spinup(discord.Client):
                 self.vc = await message.author.voice.channel.connect()
 
                 self.vc.play(
-                    discord.FFmpegPCMAudio(executable = "C:/ffmpeg/bin/ffmpeg.exe", source = "./audio/wardell_yessir.mp3")
+                    discord.FFmpegPCMAudio("./audio/wardell_yessir.mp3")
                 )
 
                 while self.vc.is_playing():
@@ -151,7 +151,7 @@ class Spinup(discord.Client):
                 self.vc = await message.author.voice.channel.connect()
 
                 self.vc.play(
-                    discord.FFmpegPCMAudio(executable = "C:/ffmpeg/bin/ffmpeg.exe", source = "./csgo_niceknife.mp3")
+                    discord.FFmpegPCMAudio("./audio/csgo_niceknife.mp3")
                 )
 
                 while self.vc.is_playing():
@@ -168,7 +168,7 @@ class Spinup(discord.Client):
                 self.vc = await message.author.voice.channel.connect()
 
                 self.vc.play(
-                    discord.FFmpegPCMAudio(executable = "C:/ffmpeg/bin/ffmpeg.exe", source = "./victory.mp3")
+                    discord.FFmpegPCMAudio("./audio/victory.mp3")
                 )
 
                 while self.vc and self.vc.is_playing():
@@ -185,7 +185,7 @@ class Spinup(discord.Client):
                 self.vc = await message.author.voice.channel.connect()
 
                 self.vc.play(
-                    discord.FFmpegPCMAudio(executable = "C:/ffmpeg/bin/ffmpeg.exe", source = "./imposter_victory.mp3")
+                    discord.FFmpegPCMAudio("./audio/imposter_victory.mp3")
                 )
 
                 while self.vc and self.vc.is_playing():
@@ -203,7 +203,7 @@ class Spinup(discord.Client):
                 self.vc = await message.author.voice.channel.connect()
 
                 self.vc.play(
-                    discord.FFmpegPCMAudio(executable = "C:/ffmpeg/bin/ffmpeg.exe", source = "./naruto_deliberation.mp3")
+                    discord.FFmpegPCMAudio("./audio/naruto_deliberation.mp3")
                 )
 
                 while self.vc and self.vc.is_playing():
@@ -219,8 +219,10 @@ class Spinup(discord.Client):
             if self.vc:
                 await self.vc.disconnect()
                 self.vc = None
-        
+
         if message.content.startswith("!spinup"):
+            return  # disable spinup so people can't spend my money -Kavel
+
             if self.voting:
                 await message.channel.send("you mf clown there's already an active vote")
             elif self.running:
@@ -237,7 +239,6 @@ class Spinup(discord.Client):
                     self.voteStarted = time.time()
                     self.voting = True
                     self.voted = set()
-        
 
 
         elif message.content.startswith("!whois"):
@@ -320,7 +321,7 @@ class Spinup(discord.Client):
                 await message.channel.send("the server is not currently up")
             
         elif message.content.startswith("!ip"):
-            self.ip = ec2.describe_instances()['Reservations'][0]['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp']
+            self.ip = ec2.describe_instances()['Reservations'][1]['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp']
 
             await message.channel.send("`%s:25565`" % (self.ip))
     
@@ -396,9 +397,9 @@ async def check_messages(ctx):
         if ctx.running and (time.time() - ctx.upsince) > 1 and not ctx.sock_connected and c % 20 == 0:
             try:
                 instances = ec2.describe_instances()
-                ip_addr = instances['Reservations'][0]['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp']
+                ip_addr = instances['Reservations'][1]['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp']
 
-                await sock.connect(url = 'http://{}:5000'.format(ip_addr))
+                await sock.connect(url = 'http://{}:5000'.format(os.environ['PRIVATE_IP']))
             except:
                 print("attempted to connect and failed.")
             else:
