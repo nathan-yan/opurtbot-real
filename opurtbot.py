@@ -219,6 +219,23 @@ class Spinup(discord.Client):
             if self.vc:
                 await self.vc.disconnect()
                 self.vc = None
+        
+        if message.content == '!ez4ence':
+            try:
+                self.vc = await message.author.voice.channel.connect()
+
+                self.vc.play(
+                    discord.FFmpegPCMAudio("./audio/ez4ence.mp3")
+                )
+
+                while self.vc and self.vc.is_playing():
+                    await asyncio.sleep(.1)
+                
+                await self.vc.disconnect()
+            except discord.errors.ClientException:
+                await message.channel.send(
+                    "opurtbot is already playing a clip"
+                )
 
         if message.content.startswith("!spinup"):
             return  # disable spinup so people can't spend my money -Kavel
