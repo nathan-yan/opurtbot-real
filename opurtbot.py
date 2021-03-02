@@ -236,6 +236,23 @@ class Spinup(discord.Client):
                 await message.channel.send(
                     "opurtbot is already playing a clip"
                 )
+        
+        if message.content == '!windows95':
+            try:
+                self.vc = await message.author.voice.channel.connect()
+
+                self.vc.play(
+                    discord.FFmpegPCMAudio("./audio/windows95.mp3")
+                )
+
+                while self.vc and self.vc.is_playing():
+                    await asyncio.sleep(.1)
+                
+                await self.vc.disconnect()
+            except discord.errors.ClientException:
+                await message.channel.send(
+                    "opurtbot is already playing a clip"
+                )
 
         if message.content.startswith("!spinup"):
             return  # disable spinup so people can't spend my money -Kavel
