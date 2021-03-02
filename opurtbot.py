@@ -254,12 +254,12 @@ class Spinup(discord.Client):
                     "opurtbot is already playing a clip"
                 )
         
-        if message.content == '!fox':
+        if message.content == '!universal':
             try:
                 self.vc = await message.author.voice.channel.connect()
 
                 self.vc.play(
-                    discord.FFmpegPCMAudio("./audio/fox.mp3")
+                    discord.FFmpegPCMAudio("./audio/universal.mp3")
                 )
 
                 while self.vc and self.vc.is_playing():
