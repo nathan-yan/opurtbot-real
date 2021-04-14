@@ -13,11 +13,14 @@ from threading import Thread
 from requests import get
 
 import os
+from dotenv import load_dotenv
 
 import re
 
 import boto3
 import utils
+
+load_dotenv()
 
 ec2 = boto3.client('ec2')
 
@@ -32,7 +35,7 @@ class SpinupThread (threading.Thread):
       
    def run(self):
       client = Spinup()
-      client.run(os.environ['DISCORD_TOKEN'])
+      client.run(os.getenv('DISCORD_TOKEN'))
     
 class ServerThread (threading.Thread):
     def __init__(self):
